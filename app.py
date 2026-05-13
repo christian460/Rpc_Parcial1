@@ -2,7 +2,7 @@ import os
 import pika
 import uuid
 from time import sleep
-from flask import Flask
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
@@ -90,9 +90,27 @@ class RpcClient(object):
 
 rpc_client = RpcClient('rpc_queue')
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def home():
-    return 'Servidor RPC activo'
+
+    response = None
+
+    if request.method == 'POST':
+
+        payload = request.form['message']
+
+        try:
+
+            response = rpc_client.call(payload)
+
+        except Exception as e:
+
+            response = f"Error: {e}"
+
+    return render_template(
+        'index.html',
+        response=response
+    )
 
 @app.route('/rpc_call/<payload>')
 def rpc_call(payload):
