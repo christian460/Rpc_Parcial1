@@ -1,0 +1,3 @@
+pip install -r requirements.txt
+$env:RABBITMQ_URL="amqps://zxxxxdxf:ewjD3StKHcDw_mgBQU2lv8J655rPZ0sq@gorilla.lmq.cloudamqp.com/zxxxxdxf"
+python .\server.py    
